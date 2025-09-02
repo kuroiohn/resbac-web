@@ -1,0 +1,22 @@
+.mp-tab {
+    background-color: #FAFAFA;
+    min-height: 100vh;
+    padding: 16px;
+    font-family: sans-serif;
+    margin-top: 10px;
+}
+
+/* General Layout */
+.mp-content-container {
+    display: flex;
+    gap: 20px;
+}
+
+.mp-welcome-text {
+    font-size: 22px;
+    font-weight: 100;
+}
+
+.mp-admin-name {
+    color: #007BFF;
+}
