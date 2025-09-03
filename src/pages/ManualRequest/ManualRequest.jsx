@@ -18,6 +18,10 @@ export default function ManualRequest() {
     //state for showing expanded view of the table
     const [showExpandedView, setShowExpandedView] = useState(false);
 
+    // state for confirmation modal
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [requestIdToDelete, setRequestIdToDelete] = useState(null);
+
     // function to handle form submission
     const handleSubmit = (e) => {
         e.preventDefault(); //prevents the page from reloading
@@ -47,9 +51,23 @@ export default function ManualRequest() {
         setHouseholdnumber("");
     };
 
-    // function for removing a request row
-    const removeRequest = (id) => {
-        setManualRequest(manualRequest.filter(item => item.id !== id));
+    // function to show confirmation modal
+    const showConfirmationModal = (id) => {
+        setRequestIdToDelete(id);
+        setShowConfirmation(true);
+    }
+
+    // function to handle the actual removal
+    const handleConfirmRemove = () => {
+        setManualRequest(manualRequest.filter(request => request.id !== requestIdToDelete));
+        setShowConfirmation(false);
+        setRequestIdToDelete(null);
+    }
+
+    // function to cancel the removal
+    const handleCancelRemove = () => {
+        setShowConfirmation(false);
+        setRequestIdToDelete(null);
     }
 
     //front-end staffs
@@ -165,7 +183,7 @@ export default function ManualRequest() {
                                         <td>{request.vulnerability}</td>
                                         <td>{request.householdnumber}</td>
                                         <td>
-                                            <button onClick={() => removeRequest(request.id)} className="remove-button">Remove</button>
+                                            <button onClick={() => showConfirmationModal(request.id)} className="remove-button">Remove</button>
                                         </td>
                                     </tr>
                                 ))
@@ -199,7 +217,6 @@ export default function ManualRequest() {
                                     <th>Address</th>
                                     <th>Vulnerability</th>
                                     <th>Household Size</th>
-                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -210,9 +227,6 @@ export default function ManualRequest() {
                                         <td>{request.address}</td>
                                         <td>{request.vulnerability}</td>
                                         <td>{request.householdnumber}</td>
-                                        <td>
-                                            <button onClick={() => removeRequest(request.id)} className="remove-button">Remove</button>
-                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>
@@ -220,6 +234,19 @@ export default function ManualRequest() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* confirmation of removal */}
+            {showConfirmation && (
+                    <div className="modal-overlay">
+                        <div className="confirm-modal-content">
+                            <p>Are you sure you want to remove this request?</p>
+                            <div className="confirm-modal-buttons">
+                                <button onClick={handleCancelRemove} className="cancel-button">Cancel</button>
+                                <button onClick={handleConfirmRemove} className="confirm-button">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
             )}
         </div>
     );

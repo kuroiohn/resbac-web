@@ -20,3 +20,141 @@
 .acc-admin-name {
     color: #007BFF;
 }
+
+.acc-edit-container {
+    width: 150px; /* A fixed width to hold both buttons */
+    height: 38px;
+    display: flex;
+    justify-content: flex-end; /* Pushes the content to the right */
+}
+
+/* Account Panel Layout */
+.account-panel {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    max-width: 800px;
+    margin: 0;
+
+}
+
+.account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 16px;
+}
+
+.account-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Edit Icon */
+.acc-edit-icon {
+    cursor: pointer;
+}
+
+.acc-edit-icon-img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+/* New button styles */
+.acc-edit-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.acc-save-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.acc-save-button:hover {
+    background-color: #c82333;
+}
+
+.acc-cancel-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.acc-cancel-button:hover {
+    background-color: #0056b3;
+}
+
+/* account information layout */
+.acc-profile-grid {
+    display: flex;
+    gap: 40px;
+}
+
+.acc-profile-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.acc-profile-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.acc-profile-label {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.acc-profile-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.acc-loading-message {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    padding: 50px 0;
+}
+
+/* Input field styles */
+.acc-profile-input {
+    width: 94%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    background-color: white;
+    font-family: sans-serif;
+    font-weight: 500;
+}
+
+.acc-profile-input:disabled {
+    background-color: #F3F4F8;
+    cursor: default;
+    /* This removes the default dotted outline many browsers add on disabled inputs */
+    -webkit-text-fill-color: #333;
+    opacity: 1;
+}

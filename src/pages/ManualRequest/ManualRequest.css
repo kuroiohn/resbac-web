@@ -206,10 +206,6 @@
 }
 
 
-
-
-
-
 /* Expanded View Button and Modal */
 .request-report-header {
     display: flex;
@@ -229,6 +225,7 @@
     background-color: #0056b3;
 }
 
+/* used for overlay pop ups*/
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -272,4 +269,48 @@
     font-size: 24px;
     cursor: pointer;
     color: #888;
+}
+
+/* Confirmation Modal */
+.confirm-modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.confirm-modal-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.confirm-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cancel-button {
+    background-color: #007BFF;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+}
+
+.cancel-button:hover {
+    background-color: #0056b3;
+}
+
+.confirm-button {
+    background-color: #dc3545;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+}
+
+.confirm-button:hover {
+    background-color: #c82333;
 }
