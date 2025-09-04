@@ -7,9 +7,29 @@
 }
 
 /* General Layout */
-.mp-content-container {
+.mp-container-header {
     display: flex;
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+}
+
+.mp-container-header-title {
+    font-size: 20px;
+    color: black;
+    font-weight: normal;
+}
+
+.mp-horizontal-line {
+    flex-grow: 1; /* This makes the div take up all remaining space */
+    height: 2px; /* Set the thickness of the line */
+    background-color: #007BFF; /* Set the color of the line */
+    margin-left: 10px; /* Add some space between the text and the line */
+}
+
+.mp-container-header-icon img{
+    width: 20px;
+    height: 28px;
 }
 
 .mp-welcome-text {
@@ -20,3 +40,357 @@
 .mp-admin-name {
     color: #007BFF;
 }
+
+/* Layout for row cards */
+.mp-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.mp-card-row-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap; /* Allows cards to wrap to the next line */
+}
+
+/* Evacuation Center Card Styles */
+.mp-calling-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 400px; /* Fixed width for consistent card size */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    border-top: 1px solid #007BFF;
+}
+
+.mp-calling-card-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.mp-calling-card-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.mp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mp-card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.mp-card-image-container {
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    position: relative;
+}
+
+.mp-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Gradient Overlay for the image itself */
+.mp-image-wrapper {
+    position: relative; /* This is crucial for positioning the gradient pseudo-element */
+    width: 100%;
+    height: 100%;
+    border-radius: 4px; /* Match desired corner radius */
+    overflow: hidden; /* Ensures gradient and image conform to border-radius */
+}
+
+.mp-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* This creates a gradient from transparent to a light blue */
+    background: linear-gradient(to bottom, rgba(0, 123, 255, 0.8) 0%, transparent 75%); /* Gradient from bottom up */
+    opacity: 1; /* Adjust as needed */
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 1; /* Ensures it sits above the image */
+}
+
+
+.mp-card-details {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Add New Button */
+.mp-add-new-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    align-self: flex-start;
+}
+
+.mp-add-new-button:hover {
+    background-color: #0056b3;
+}
+
+/* Edit button */
+.mp-edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mp-edit-button img {
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.mp-edit-button:hover img {
+    opacity: 1;
+}
+
+/* Modal and Form Styles */
+.mp-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.mp-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.mp-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mp-modal-close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.mp-form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mp-form-group label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.mp-form-group input,
+.mp-form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.mp-image-preview {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+}
+
+.mp-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.mp-save-button,
+.mp-cancel-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.mp-save-button {
+    background-color: #007BFF;
+    color: white;
+}
+
+.mp-cancel-button {
+    background-color: #ccc;
+    color: #333;
+}
+
+.mp-loading-message {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    padding: 50px 0;
+}
+
+/* Emergency Person Card Styles */
+/* Emergency Person Card Styles */
+.mp-person-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    gap: 10px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* This is crucial */
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+/* This is the container for the image and text on the top row */
+.mp-person-card-content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+    z-index: 1; /* Ensure this is above the gradient */
+}
+
+/* New Gradient Overlay for the entire card */
+.mp-person-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient from top, fading out to transparent */
+    background: linear-gradient(to bottom, rgba(0, 123, 255, 10) 0%, transparent 60%);
+    border-radius: 8px; /* Match the card's border-radius */
+    pointer-events: none;
+    z-index: 0; /* Ensures it's behind all other content */
+    border-top: 1px solid #007BFF;
+}
+/* Container for the circular image */
+.mp-person-image-container {
+    width: 60px; /* Reduced size to match the design */
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #007BFF;
+}
+
+.mp-person-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Text and information container */
+.mp-person-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left; /* Align text to the left */
+    flex-grow: 1; /* Allows this section to fill the available space */
+}
+
+.mp-person-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.mp-person-role {
+    font-size: 12px;
+    color: white;
+    margin: 0;
+}
+
+.mp-person-affiliation {
+    font-size: 12px;
+    color: #007BFF;
+    margin: 0;
+}
+
+/* Buttons */
+.mp-person-call-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 10px; /* Space between content and buttons */
+}
+
+.mp-person-call-button:hover {
+    background-color: #0056b3;
+}
+
+.mp-person-message-button {
+    background-color: transparent;
+    color: #007BFF;
+    border: 1px solid #007BFF;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.mp-person-message-button:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
