@@ -47,6 +47,7 @@ const dummyEmergencyPersons = [
         role: "Disaster Response",
         contact: "09171234567",
         image: placeholderimg,
+        fblink: "sample.com",
     },
     {
         id: "6",
@@ -54,6 +55,7 @@ const dummyEmergencyPersons = [
         role: "Search and Rescue",
         contact: "09209876543",
         image: placeholderimg,
+        fblink: "sample.com",
     }
 ];
 
@@ -73,11 +75,16 @@ export default function ManagePoints() {
         address: "",
         role: "",
         contact: "",
+        fblink: "",
         image: null,
     });
     const [imagePreview, setImagePreview] = useState(null);
+    const [isDeleteMode, setIsDeleteMode] = useState(false);
+    const [selectedCards, setSelectedCards] = useState([]);
 
     const handleAddEdit = (item, type) => {
+        if (isDeleteMode) return;
+
         setCurrentItem(item);
         setCurrentType(type);
         if (item) {
@@ -89,6 +96,7 @@ export default function ManagePoints() {
                 address: '',
                 role: '',
                 contact: '',
+                fblink: '',
                 image: null,
             });
             setImagePreview(null);
@@ -158,7 +166,7 @@ export default function ManagePoints() {
         const labels = {
             evac: { name: "Evacuation Center Name", address: "Address" },
             pickup: { name: "Pick-up Location Name", address: "Address" },
-            emergency: { name: "Full Name", role: "Role" },
+            emergency: { name: "Full Name", role: "Role" , fblink: "Facebook Link", contact: "Contact Number"},
         };
         return labels[currentType] ? labels[currentType][field] : field;
     };
@@ -172,12 +180,84 @@ export default function ManagePoints() {
         return currentItem ? `Edit ${title[currentType]}` : `Add New ${title[currentType]}`;
     };
 
+    // New delete-related functions
+    const toggleDeleteMode = () => {
+        setIsDeleteMode(!isDeleteMode);
+        setSelectedCards([]); // Clear selection when toggling mode
+    };
+
+    const handleSelectCard = (id, type) => {
+        setSelectedCards(prev => {
+            const exists = prev.find(c => c.id === id && c.type === type);
+            if (exists) {
+                return prev.filter(c => !(c.id === id && c.type === type));
+            } else {
+                return [...prev, { id, type }];
+            }
+        });
+    };
+
+    const handleDelete = () => {
+        if (selectedCards.length === 0) {
+            alert("Please select at least one card to delete.");
+            return;
+        }
+
+        if (window.confirm(`Are you sure you want to delete ${selectedCards.length} selected item(s)?`)) {
+            let newEvacCenters = [...evacCenters];
+            let newPickupLocations = [...pickupLocations];
+            let newEmergencyPersons = [...emergencyPersons];
+
+            selectedCards.forEach(card => {
+                if (card.type === 'evac') {
+                    newEvacCenters = newEvacCenters.filter(c => c.id !== card.id);
+                } else if (card.type === 'pickup') {
+                    newPickupLocations = newPickupLocations.filter(c => c.id !== card.id);
+                } else if (card.type === 'emergency') {
+                    newEmergencyPersons = newEmergencyPersons.filter(p => p.id !== card.id);
+                }
+            });
+
+            setEvacCenters(newEvacCenters);
+            setPickupLocations(newPickupLocations);
+            setEmergencyPersons(newEmergencyPersons);
+            setSelectedCards([]);
+            setIsDeleteMode(false);
+        }
+    };
+
     return (
         <div className="mp-tab">
             <div className="header">
                 <h1 className="mp-welcome-text">
                     Welcome, <span className="mp-admin-name">Admin Name</span>
                 </h1>
+                <div className="mp-action-buttons">
+                    {isDeleteMode ? (
+                        <>
+                        <span className="mp-delete-message">
+                            {selectedCards.length > 0
+                                ? `${selectedCards.length} selected`
+                                : "Select cards to delete"}
+                        </span>
+                            <button
+                                type="button"
+                                className="mp-delete-button"
+                                onClick={handleDelete}
+                                disabled={selectedCards.length === 0}
+                            >
+                                Delete Selected
+                            </button>
+                            <button type="button" className="mp-cancel-button" onClick={toggleDeleteMode}>
+                                Cancel
+                            </button>
+                        </>
+                    ) : (
+                        <button type="button" className="mp-delete-mode-button" onClick={toggleDeleteMode}>
+                            Delete
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Evacuation Center Section */}
@@ -189,15 +269,31 @@ export default function ManagePoints() {
                     <h2 className="mp-container-header-title">Evacuation Center</h2>
                     <div className="mp-horizontal-line"></div>
                 </div>
-                <button
-                    className="mp-add-new-button"
-                    onClick={() => handleAddEdit(null, 'evac')}
-                >
-                    + Add New Evacuation Center
-                </button>
+                {!isDeleteMode && (
+                    <button
+                        className="mp-add-new-button"
+                        onClick={() => handleAddEdit(null, 'evac')}
+                    >
+                        + Add New Evacuation Center
+                    </button>
+                )}
+
                 <div className="mp-card-row-container">
                     {evacCenters.map((center) => (
-                        <div className="mp-calling-card" key={center.id}>
+                        <div
+                            className={`mp-calling-card ${isDeleteMode && selectedCards.some(s => s.id === center.id) ? 'selected-for-delete' : ''}`}
+                            key={center.id}
+                            onClick={isDeleteMode ? () => handleSelectCard(center.id, 'evac') : undefined}
+                        >
+                            {isDeleteMode && (
+                                <input
+                                    type="checkbox"
+                                    className="mp-delete-checkbox"
+                                    checked={selectedCards.some(s => s.id === center.id && s.type === 'evac')}
+                                    onChange={() => handleSelectCard(center, 'evac')}
+                                    onClick={(e) => e.stopPropagation()} // Prevents parent div's onClick from firing
+                                />
+                            )}
                             <div className="mp-calling-card-left">
                                 <div className="mp-card-image-container">
                                     <div className="mp-image-wrapper">
@@ -208,12 +304,14 @@ export default function ManagePoints() {
                             <div className="mp-calling-card-right">
                                 <div className="mp-card-header">
                                     <h3 className="mp-card-title">{center.name}</h3>
-                                    <button
-                                        className="mp-edit-button"
-                                        onClick={() => handleAddEdit(center, 'evac')}
-                                    >
-                                        <img src={EditIcon} alt="Edit-Icon" />
-                                    </button>
+                                    {!isDeleteMode && (
+                                        <button
+                                            className="mp-edit-button"
+                                            onClick={() => handleAddEdit(center, 'evac')}
+                                        >
+                                            <img src={EditIcon} alt="Edit-Icon" />
+                                        </button>
+                                    )}
                                 </div>
                                 <div className="mp-card-details">
                                     <p>Address: {center.address}</p>
@@ -225,7 +323,6 @@ export default function ManagePoints() {
                 </div>
             </div>
 
-            <div className="mp-spacer"></div>
 
             {/* Pick-up Locations Section */}
             <div className="mp-container">
@@ -236,15 +333,31 @@ export default function ManagePoints() {
                     <h2 className="mp-container-header-title">Pick-up Locations</h2>
                     <div className="mp-horizontal-line"></div>
                 </div>
-                <button
-                    className="mp-add-new-button"
-                    onClick={() => handleAddEdit(null, 'pickup')}
-                >
-                    + Add New Pick-up Location
-                </button>
+                {!isDeleteMode && (
+                    <button
+                        className="mp-add-new-button"
+                        onClick={() => handleAddEdit(null, 'pickup')}
+                    >
+                        + Add New Pick-up Location
+                    </button>
+                )}
+
                 <div className="mp-card-row-container">
                     {pickupLocations.map((location) => (
-                        <div className="mp-calling-card" key={location.id}>
+                        <div
+                            className={`mp-calling-card ${isDeleteMode && selectedCards.some(s => s.id === location.id) ? 'selected-for-delete' : ''}`}
+                            key={location.id}
+                            onClick={isDeleteMode ? () => handleSelectCard(location.id, 'pickup') : undefined}
+                        >
+                            {isDeleteMode && (
+                                <input
+                                    type="checkbox"
+                                    className="mp-delete-checkbox"
+                                    checked={selectedCards.some(s => s.id === location.id && s.type === 'pickup')}
+                                    onChange={() => handleSelectCard(location.id, 'pickup')}
+                                    onClick={(e) => e.stopPropagation()}
+                                />
+                            )}
                             <div className="mp-calling-card-left">
                                 <div className="mp-card-image-container">
                                     <div className="mp-image-wrapper">
@@ -255,12 +368,14 @@ export default function ManagePoints() {
                             <div className="mp-calling-card-right">
                                 <div className="mp-card-header">
                                     <h3 className="mp-card-title">{location.name}</h3>
-                                    <button
-                                        className="mp-edit-button"
-                                        onClick={() => handleAddEdit(location, 'pickup')}
-                                    >
-                                        <img src={EditIcon} alt="Edit-Icon" />
-                                    </button>
+                                    {!isDeleteMode && (
+                                        <button
+                                            className="mp-edit-button"
+                                            onClick={() => handleAddEdit(location, 'pickup')}
+                                        >
+                                            <img src={EditIcon} alt="Edit-Icon" />
+                                        </button>
+                                    )}
                                 </div>
                                 <div className="mp-card-details">
                                     <p>Address: {location.address}</p>
@@ -272,8 +387,6 @@ export default function ManagePoints() {
                 </div>
             </div>
 
-            <div className="mp-spacer"></div>
-
             {/* Emergency Persons Section */}
             <div className="mp-container">
                 <div className="mp-container-header">
@@ -283,15 +396,31 @@ export default function ManagePoints() {
                     <h2 className="mp-container-header-title">Emergency Persons</h2>
                     <div className="mp-horizontal-line"></div>
                 </div>
-                <button
-                    className="mp-add-new-button"
-                    onClick={() => handleAddEdit(null, 'emergency')}
-                >
-                    + Add New Emergency Person
-                </button>
+                {!isDeleteMode && (
+                    <button
+                        className="mp-add-new-button"
+                        onClick={() => handleAddEdit(null, 'emergency')}
+                    >
+                        + Add New Pick-up Location
+                    </button>
+                )}
+
                 <div className="mp-card-row-container">
                     {emergencyPersons.map((person) => (
-                        <div className="mp-person-card" key={person.id}>
+                        <div
+                            className={`mp-person-card ${isDeleteMode && selectedCards.some(s => s.id === person.id) ? 'selected-for-delete' : ''}`}
+                            key={person.id}
+                            onClick={isDeleteMode ? () => handleSelectCard(person.id, 'emergency') : undefined}
+                        >
+                            {isDeleteMode && (
+                                <input
+                                    type="checkbox"
+                                    className="mp-delete-checkbox"
+                                    checked={selectedCards.some(s => s.id === person.id && s.type === 'emergency')}
+                                    onChange={() => handleSelectCard(person.id, 'emergency')}
+                                    onClick={(e) => e.stopPropagation()}
+                                />
+                            )}
                             <div className="mp-person-card-content">
                                 <div className="mp-person-image-container">
                                     <img src={person.image} alt={person.name} className="mp-person-image" />
@@ -301,12 +430,14 @@ export default function ManagePoints() {
                                     <p className="mp-person-role">{person.role}</p>
                                     <p className="mp-person-affiliation">Barangay Tumana</p>
                                 </div>
-                                <button
-                                    className="mp-edit-button"
-                                    onClick={() => handleAddEdit(person, 'emergency')}
-                                >
-                                    <img src={EditIcon} alt="Edit-Icon" />
-                                </button>
+                                {!isDeleteMode && (
+                                    <button
+                                        className="mp-edit-button"
+                                        onClick={() => handleAddEdit(person, 'emergency')}
+                                    >
+                                        <img src={EditIcon} alt="Edit-Icon" />
+                                    </button>
+                                )}
                             </div>
                             <button className="mp-person-call-button">
                                 Call {person.contact}
@@ -318,6 +449,7 @@ export default function ManagePoints() {
                     ))}
                 </div>
             </div>
+
 
             {/* Modal for adding/editing a center */}
             {isModalOpen && (
@@ -357,6 +489,18 @@ export default function ManagePoints() {
                                         type="text"
                                         name="role"
                                         value={formState.role}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                            )}
+                            {currentType === 'emergency' && (
+                                <div className="mp-form-group">
+                                    <label>{getLabel('fblink')}</label>
+                                    <input
+                                        type="text"
+                                        name="fblink"
+                                        value={formState.fblink}
                                         onChange={handleInputChange}
                                         required
                                     />

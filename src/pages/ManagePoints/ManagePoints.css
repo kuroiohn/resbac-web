@@ -68,6 +68,7 @@
     flex-direction: row;
     gap: 16px;
     border-top: 1px solid #007BFF;
+    position: relative;
 }
 
 .mp-calling-card-left {
@@ -254,9 +255,10 @@
 .mp-cancel-button {
     padding: 10px 20px;
     border: none;
+    outline: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .mp-save-button {
@@ -265,8 +267,8 @@
 }
 
 .mp-cancel-button {
-    background-color: #ccc;
-    color: #333;
+    background-color: #dc3545;
+    color: white;
 }
 
 .mp-loading-message {
@@ -286,7 +288,7 @@
     width: 250px;
     display: flex;
     flex-direction: column;
-    position: relative; /* This is crucial */
+    position: relative;
     box-sizing: border-box;
     background-color: transparent;
 }
@@ -393,4 +395,63 @@
 .mp-person-message-button:hover {
     background-color: rgba(0, 123, 255, 0.1);
 }
+
+/* for deletion */
+.mp-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mp-delete-message {
+    font-size: 14px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.mp-delete-button {
+    border-radius: 4px;
+    padding: 10px 20px;
+    border: none;
+}
+
+.mp-delete-button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #dc3545;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 4px;
+}
+
+.selected-for-delete {
+    border: 2px solid #dc3545; /* Red border to highlight selected cards */
+}
+
+.mp-delete-checkbox {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+.mp-delete-mode-button {
+    background-color: #dc3545;
+    border-radius: 4px;
+    padding: 10px 20px;
+    color: white;
+}
+
+.mp-delete-mode-button:hover {
+    background-color: #c82333;
+}
+
+.mp-delete-mode-button,
+.mp-delete-button {
+    border: none;
+    outline: none;
+}
+
+
+
 
