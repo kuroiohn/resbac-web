@@ -1,7 +1,7 @@
 // import { Link } from 'react-router-dom';
 // import { FiHome, FiMapPin, FiUsers, FiSettings, FiLayers, FiTool } from 'react-icons/fi';
-import './SideBar.css';
-import { NavLink } from "react-router-dom";
+import "./SideBar.css";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // imports kasi pngs ang icon natin xd
 import homeIcon from "../../../assets/home.png";
@@ -22,24 +22,64 @@ import resbacLogo from "../../../assets/RESBACLogo.png";
 
 const navItems = [
   { label: "Home", path: "/home", icon: homeIcon, activeIcon: homeIconWhite },
-  { label: "Rescue Teams", path: "/rescue-teams", icon: teamIcon, activeIcon: teamIconWhite },
-  { label: "Vulnerables", path: "/vulnerables", icon: vulnerableIcon, activeIcon: vulnerableIconWhite },
-  { label: "Alerts", path: "/alerts", icon: alertsIcon, activeIcon: alertsIconWhite },
-  { label: "Manual Request", path: "/manual", icon: formsIcon, activeIcon: formsIconWhite },
-  { label: "Account", path: "/account", icon: accountIcon, activeIcon: accountIconWhite },
-  { label: "Manage Points", path: "/points", icon: folderIcon, activeIcon: folderIconWhite },
+  {
+    label: "Rescue Teams",
+    path: "/rescue-teams",
+    icon: teamIcon,
+    activeIcon: teamIconWhite,
+  },
+  {
+    label: "Vulnerables",
+    path: "/vulnerables",
+    icon: vulnerableIcon,
+    activeIcon: vulnerableIconWhite,
+  },
+  {
+    label: "Alerts",
+    path: "/alerts",
+    icon: alertsIcon,
+    activeIcon: alertsIconWhite,
+  },
+  {
+    label: "Manual Request",
+    path: "/manual",
+    icon: formsIcon,
+    activeIcon: formsIconWhite,
+  },
+  {
+    label: "Account",
+    path: "/account",
+    icon: accountIcon,
+    activeIcon: accountIconWhite,
+  },
+  {
+    label: "Manage Points",
+    path: "/points",
+    icon: folderIcon,
+    activeIcon: folderIconWhite,
+  },
 ];
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // clear auth tokens/session if needed
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // redirect to login page
+    navigate("/login");
+  };
   return (
-    <aside className="sidebar">
+    <aside className='sidebar'>
       {/* Header */}
-      <div className="sidebar-header">
-        <img src={resbacLogo} alt="RESBAC Logo" className="resbac-logo" />
-        <span className="resbac-text">RESBAC</span>
+      <div className='sidebar-header'>
+        <img src={resbacLogo} alt='RESBAC Logo' className='resbac-logo' />
+        <span className='resbac-text'>RESBAC</span>
       </div>
       {/* NavBar Content */}
-      <nav className="sidebar-nav">
+      <nav className='sidebar-nav'>
         {navItems.map((item) => (
           <NavLink
             to={item.path}
@@ -51,7 +91,7 @@ export default function Sidebar() {
                 <img
                   src={isActive ? item.activeIcon : item.icon}
                   alt={item.label}
-                  className="icon"
+                  className='icon'
                 />
                 <span>{item.label}</span>
               </>
@@ -59,6 +99,13 @@ export default function Sidebar() {
           </NavLink>
         ))}
       </nav>
+
+      {/* Logout Btn */}
+      <div className='sidebar-footer'>
+        <button className='logout-btn' onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }

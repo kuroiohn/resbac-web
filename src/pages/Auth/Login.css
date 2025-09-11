@@ -36,6 +36,7 @@
 .login-subtitle {
   color: #6b7280;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 /* Form */
@@ -52,13 +53,12 @@
 
 /* Input fields */
 .login-input {
-  width: 100%;
+  width: 88%;
   height: 40px;
   background-color: #fafafa;
   border: 1.1px solid #0060ff;
   padding: 0 20px;
   border-radius: 50px;
-  margin-bottom: 0px;
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
 }
@@ -86,7 +86,7 @@
 /* Button */
 .login-button {
   height: 40px;
-  width: 111%; /* ✅ match input width */
+  width: 100%; /* ✅ match input width */
   display: block; /* ensures full width like input */
   border: none;
   border-radius: 50px;

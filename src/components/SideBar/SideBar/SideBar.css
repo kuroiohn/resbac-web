@@ -35,19 +35,19 @@
 
 /* Hover for inactive */
 .nav-item:not(.active):hover {
-  color: #0060FF;
+  color: #0060ff;
 }
 
 /* Active state */
 .nav-item.active {
-  background: #0060FF;
+  background: #0060ff;
   color: #ffffff; /* text white */
   height: 22px;
 }
 
 /* Keep active text white on hover */
 .nav-item.active:hover {
-  background: #0060FF;
+  background: #0060ff;
   color: #ffffff;
 }
 
@@ -69,7 +69,29 @@
 .resbac-text {
   font-weight: 700;
   font-size: 22px;
-  color: #0b5bd3;
+  color: #0060ff;
   letter-spacing: 0.5px;
 }
 
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.logout-btn {
+  width: 90%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #0060ff;
+  transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #0060ff, #007bff);
+  color: #ffffff;
+}

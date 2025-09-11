@@ -43,8 +43,8 @@ export default function ForgotPassword() {
           <p className='login-subtitle'>Enter your email to reset password.</p>
         ) : (
           <p className='login-subtitle'>
-            We’ve sent a verification code to your email. Please copy the code
-            from your inbox and paste it into the field below.
+            We’ve sent a verification code to your email. Please copy the code{" "}
+            <br /> from your inbox and paste it into the field below.
           </p>
         )}
 
